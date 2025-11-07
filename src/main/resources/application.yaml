@@ -1,0 +1,22 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: app_practicas_profesionales_ucn
+  datasource:
+    url: jdbc:postgresql://localhost:5432/practicas_db
+    username: practicas_user
+    password: super_secret
+    driver-class-name: org.postgresql.Driver
+
+    jpa:
+      hibernate:
+        ddl-auto: none
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      open-in-view: false
+      properties:
+        hibernate:
+          format_sql: true
+          jdbc:
+            time_zone: UTC
