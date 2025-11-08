@@ -12,5 +12,6 @@ public class Estudiante {
     private String nombre;
     private String correo;
     private String programa;
+    private Boolean activo;
 }
 

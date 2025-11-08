@@ -1,9 +1,8 @@
-package co.com.ucn.practicas.infraestructure.entrypoints.vacante;
+package co.com.ucn.practicas.infraestructure.entrypoints;
 
 import co.com.ucn.practicas.domain.model.entity.Vacante;
 import co.com.ucn.practicas.domain.usecase.VacanteUseCase;
 import jakarta.validation.constraints.NotBlank;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +19,7 @@ public class VacanteController {
         this.useCase = useCase;
     }
 
-    /** POST /api/vacantes  - crear */
-    @PostMapping
+    @PostMapping("/crear")
     public ResponseEntity<Vacante> crear(@RequestBody CrearVacanteRequest req) {
         Vacante v = Vacante.builder()
                 .idEmpresa(req.idEmpresa())
@@ -33,8 +31,7 @@ public class VacanteController {
         return ResponseEntity.ok(useCase.crear(v));
     }
 
-    /** GET /api/vacantes  - listar abiertas con filtros básicos y paginación */
-    @GetMapping
+    @GetMapping("/listarTodos")
     public ResponseEntity<List<Vacante>> listar(
             @RequestParam(required = false) String programa,
             @RequestParam(required = false) String ciudad,
@@ -45,26 +42,22 @@ public class VacanteController {
         return ResponseEntity.ok(useCase.listarAbiertas(programa, ciudad, modalidad, page, size));
     }
 
-    /** GET /api/vacantes/{id} - detalle */
-    @GetMapping("/{id}")
+    @GetMapping("/consultarPorId/{id}")
     public ResponseEntity<Vacante> obtener(@PathVariable("id") Long id) {
         return ResponseEntity.ok(useCase.obtener(id));
     }
 
-    /** PATCH /api/vacantes/{id} - editar título/descripcion */
     @PatchMapping("/{id}")
     public ResponseEntity<Vacante> editar(@PathVariable("id") Long id, @RequestBody EditarVacanteRequest req) {
         return ResponseEntity.ok(useCase.editar(id, req.titulo(), req.descripcion()));
     }
 
-    /** PATCH /api/vacantes/{id}/cerrar - cerrar vacante */
     @PatchMapping("/{id}/cerrar")
     public ResponseEntity<Void> cerrar(@PathVariable("id") Long id) {
         useCase.cerrar(id);
         return ResponseEntity.noContent().build();
     }
 
-    // ---- DTOs mínimos ----
     public record CrearVacanteRequest(
             Long idEmpresa,
             @NotBlank String titulo,
