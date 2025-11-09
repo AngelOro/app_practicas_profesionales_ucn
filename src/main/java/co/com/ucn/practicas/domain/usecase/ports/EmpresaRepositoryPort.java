@@ -10,4 +10,5 @@ public interface EmpresaRepositoryPort {
     Optional<Empresa> findById(Long id);
     Optional<Empresa> findByNit(String nit);
     List<Empresa> list(int page, int size);
+    Empresa desactivar(Long id);
 }

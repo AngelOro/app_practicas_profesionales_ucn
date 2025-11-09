@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/empresas")
+@CrossOrigin(origins = "http://localhost:4200")
 public class EmpresasController {
 
     private final EmpresaUseCase useCase;
@@ -49,4 +50,10 @@ public class EmpresasController {
             @NotBlank String correo,
             @NotBlank String telefono
     ) {}
+
+    @PutMapping("/desactivar/{id}")
+    public ResponseEntity<Empresa> desactivar(@PathVariable Long id) {
+        var empresa = useCase.desactivar(id);
+        return ResponseEntity.ok(empresa);
+    }
 }

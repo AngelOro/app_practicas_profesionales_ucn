@@ -3,6 +3,7 @@ package co.com.ucn.practicas.infraestructure.drivenadapters.jpa.adapter;
 import co.com.ucn.practicas.domain.model.entity.Empresa;
 import co.com.ucn.practicas.domain.usecase.ports.EmpresaRepositoryPort;
 import co.com.ucn.practicas.infraestructure.drivenadapters.jpa.entity.EmpresaEntity;
+import co.com.ucn.practicas.infraestructure.drivenadapters.jpa.mapper.EmpresaMapper;
 import co.com.ucn.practicas.infraestructure.drivenadapters.jpa.repository.EmpresaJpaRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -14,9 +15,11 @@ import java.util.Optional;
 public class EmpresaRepositoryAdapter implements EmpresaRepositoryPort {
 
     private final EmpresaJpaRepository jpa;
+    private final EmpresaMapper mapper;
 
-    public EmpresaRepositoryAdapter(EmpresaJpaRepository jpa) {
+    public EmpresaRepositoryAdapter(EmpresaJpaRepository jpa, EmpresaMapper mapper) {
         this.jpa = jpa;
+        this.mapper = mapper;
     }
 
     @Override
@@ -41,6 +44,15 @@ public class EmpresaRepositoryAdapter implements EmpresaRepositoryPort {
                 .toList();
     }
 
+    @Override
+    public Empresa desactivar(Long id) {
+        var entity = jpa.findById(id)
+                .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
+        entity.setActivo(false);
+        var saved = jpa.save(entity);
+        return mapper.toModel(saved);
+    }
+
     private static Empresa toDomain(EmpresaEntity e) {
         return Empresa.builder()
                 .idEmpresa(e.getIdEmpresa())
@@ -48,6 +60,7 @@ public class EmpresaRepositoryAdapter implements EmpresaRepositoryPort {
                 .nit(e.getNit())
                 .correo(e.getCorreo())
                 .telefono(e.getTelefono())
+                .activo(e.getActivo())
                 .build();
     }
 
@@ -58,6 +71,7 @@ public class EmpresaRepositoryAdapter implements EmpresaRepositoryPort {
         e.setNit(d.getNit());
         e.setCorreo(d.getCorreo());
         e.setTelefono(d.getTelefono());
+        e.setActivo(d.getActivo());
         return e;
     }
 }

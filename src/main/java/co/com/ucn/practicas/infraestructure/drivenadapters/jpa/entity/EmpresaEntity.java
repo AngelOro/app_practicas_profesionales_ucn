@@ -26,4 +26,7 @@ public class EmpresaEntity {
 
     @Column(length = 30, nullable = false)
     private String telefono;
+
+    @Column(nullable = false)
+    private Boolean activo = true;
 }

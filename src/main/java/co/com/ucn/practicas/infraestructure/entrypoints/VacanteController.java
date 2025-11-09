@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/vacantes")
+@CrossOrigin(origins = "http://localhost:4200")
 public class VacanteController {
 
     private final VacanteUseCase useCase;
@@ -52,7 +53,7 @@ public class VacanteController {
         return ResponseEntity.ok(useCase.editar(id, req.titulo(), req.descripcion()));
     }
 
-    @PatchMapping("/{id}/cerrar")
+    @PatchMapping("/cerrar/{id}")
     public ResponseEntity<Void> cerrar(@PathVariable("id") Long id) {
         useCase.cerrar(id);
         return ResponseEntity.noContent().build();

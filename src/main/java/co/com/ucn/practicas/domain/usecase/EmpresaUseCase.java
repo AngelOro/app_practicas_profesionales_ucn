@@ -30,6 +30,11 @@ public class EmpresaUseCase {
         return empresaRepositoryPort.list(page, size);
     }
 
+    public Empresa desactivar(Long idEmpresa) {
+        validarId(idEmpresa);
+        return empresaRepositoryPort.desactivar(idEmpresa);
+    }
+
     private void validarCrear(Empresa e) {
         if (e == null) throw new IllegalArgumentException("Empresa requerida");
         if (isBlank(e.getNombre())) throw new IllegalArgumentException("nombre requerido");
