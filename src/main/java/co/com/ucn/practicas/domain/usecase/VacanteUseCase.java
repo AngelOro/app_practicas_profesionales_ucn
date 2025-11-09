@@ -7,29 +7,28 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 public class VacanteUseCase {
 
-    private final VacanteRepositoryPort repo;
+    private final VacanteRepositoryPort vacanteRepositoryPort;
 
 
     public Vacante crear(Vacante v) {
         validarCrear(v);
         if (v.getEstado() == null) v.setEstado("ABIERTA");
         if (v.getFechaPublicacion() == null) v.setFechaPublicacion(LocalDate.now());
-        return repo.save(v);
+        return vacanteRepositoryPort.save(v);
     }
 
     public List<Vacante> listarAbiertas(String programa, String ciudad, String modalidad, int page, int size) {
         validarPaginacion(page, size);
-        return repo.findOpen(trim(programa), trim(ciudad), trim(modalidad), page, size);
+        return vacanteRepositoryPort.findOpen(trim(programa), trim(ciudad), trim(modalidad), page, size);
     }
 
     public Vacante obtener(Long idVacante) {
         validarId(idVacante);
-        return repo.findById(idVacante)
+        return vacanteRepositoryPort.findById(idVacante)
                 .orElseThrow(() -> new IllegalArgumentException("Vacante no encontrada"));
     }
 
@@ -38,12 +37,12 @@ public class VacanteUseCase {
         Vacante actual = obtener(idVacante);
         if (!isBlank(nuevoTitulo)) actual.setTitulo(nuevoTitulo.trim());
         if (!isBlank(nuevaDescripcion)) actual.setDescripcion(nuevaDescripcion.trim());
-        return repo.save(actual);
+        return vacanteRepositoryPort.save(actual);
     }
 
     public void cerrar(Long idVacante) {
         validarId(idVacante);
-        repo.close(idVacante);
+        vacanteRepositoryPort.close(idVacante);
     }
 
     private void validarCrear(Vacante v) {

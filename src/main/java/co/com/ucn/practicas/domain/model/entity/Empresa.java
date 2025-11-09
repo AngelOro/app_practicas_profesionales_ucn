@@ -12,4 +12,5 @@ public class Empresa {
     private String nit;
     private String correo;
     private String telefono;
+    private Boolean activo;
 }

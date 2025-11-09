@@ -1,13 +1,8 @@
-server:
-  port: ${PORT:8090}
-
 spring:
-  application:
-    name: app_practicas_profesionales_ucn
   datasource:
-    url: jdbc:postgresql://localhost:5432/practicas_db
-    username: practicas_user
-    password: super_secret
+    url: ${JDBC_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
