@@ -26,6 +26,7 @@ public class EstudiantesController {
                 .nombre(req.nombre())
                 .correo(req.correo())
                 .programa(req.programa())
+                .activo(true)
                 .build();
         return ResponseEntity.ok(useCase.crear(est));
     }

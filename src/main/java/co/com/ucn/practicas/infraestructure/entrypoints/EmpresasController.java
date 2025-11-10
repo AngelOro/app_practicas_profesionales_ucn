@@ -27,6 +27,7 @@ public class EmpresasController {
                 .nit(req.nit())
                 .correo(req.correo())
                 .telefono(req.telefono())
+                .activo(true)
                 .build();
         return ResponseEntity.ok(useCase.crear(empresa));
     }
@@ -51,7 +52,7 @@ public class EmpresasController {
             @NotBlank String telefono
     ) {}
 
-    @PutMapping("/desactivar/{id}")
+    @PutMapping("/{id}/desactivar")
     public ResponseEntity<Empresa> desactivar(@PathVariable Long id) {
         var empresa = useCase.desactivar(id);
         return ResponseEntity.ok(empresa);
