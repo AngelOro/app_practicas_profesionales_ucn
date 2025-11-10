@@ -25,4 +25,7 @@ public class EstudianteEntity {
 
     @Column(length = 120, nullable = false)
     private String programa;
+
+    @Column(nullable = false)
+    private Boolean activo = true;
 }

@@ -48,6 +48,7 @@ public class EstudianteRepositoryAdapter implements EstudianteRepositoryPort {
                 .nombre(e.getNombre())
                 .correo(e.getCorreo())
                 .programa(e.getPrograma())
+                .activo(e.getActivo())
                 .build();
     }
 
@@ -58,6 +59,7 @@ public class EstudianteRepositoryAdapter implements EstudianteRepositoryPort {
         e.setNombre(d.getNombre());
         e.setCorreo(d.getCorreo());
         e.setPrograma(d.getPrograma());
+        e.setActivo(d.getActivo());
         return e;
     }
 }
